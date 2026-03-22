@@ -13,9 +13,21 @@ class _TimeTrackHomeState extends State<TimeTrackHome> {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Stopped', style: TextStyle(fontSize: 45),),
-            Text('00:00', style: TextStyle(fontSize: 45),),
+            Text(
+              'Stopped',
+              style: TextStyle(fontSize: 45),
+            ),
+            Text(
+              '00:00',
+              style: TextStyle(fontSize: 45),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+              ElevatedButton(onPressed: () {}, child: Text('Start/Stop'))
+            ])
           ],
         ),
       ),
