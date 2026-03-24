@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class TimeTrackHome extends StatefulWidget {
@@ -8,6 +10,17 @@ class TimeTrackHome extends StatefulWidget {
 }
 
 class _TimeTrackHomeState extends State<TimeTrackHome> {
+  int elapsedSeconds = 0;
+  Timer? timer;
+
+  String formatTime() {
+    final minutes = elapsedSeconds ~/ 60;
+    final seconds = elapsedSeconds % 60;
+    final minuteText = minutes.toString().padLeft(2, '0');
+    final secondText = seconds.toString().padLeft(2, '0');
+    return '$minuteText:$secondText';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,17 +29,32 @@ class _TimeTrackHomeState extends State<TimeTrackHome> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Stopped',
-              style: TextStyle(fontSize: 45),
+              timer != null ? 'Working' : 'Stopped',
+              style: TextStyle(fontSize: 20),
             ),
             Text(
-              '00:00',
+              formatTime(),
               style: TextStyle(fontSize: 45),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-              ElevatedButton(onPressed: () {}, child: Text('Start/Stop'))
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              ElevatedButton(
+                  onPressed: () {
+                    if (timer != null) {
+                      timer!.cancel();
+                      setState(() {
+                        timer = null;
+                      });
+                    } else {
+                      setState(() {
+                        timer = Timer.periodic(const Duration(seconds: 1), (_) {
+                          setState(() {
+                            elapsedSeconds += 1;
+                          });
+                        });
+                      });
+                    }
+                  },
+                  child: Text('Start/Stop'))
             ])
           ],
         ),
