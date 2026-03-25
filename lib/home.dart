@@ -54,7 +54,7 @@ class _TimeTrackHomeState extends State<TimeTrackHome> {
                       });
                     }
                   },
-                  child: Text('Start/Stop'))
+                  child: Text(timer != null ? 'Stop' : 'Start'))
             ])
           ],
         ),
